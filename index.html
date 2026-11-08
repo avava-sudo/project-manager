@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель проектов</title>
+    <link rel="stylesheet" href="./style.css">
+    <script defer src="./script.js"></script>
+</head>
+<body>
+
+    <div class="app">
+
+        <!-- меню слева -->
+        <aside class="sidebar">
+            <div class="logo">
+                Мои проекты
+            </div>
+
+            <nav class="menu">
+                <a href="#dashboard">Главная</a>
+                <a href="#projects">Проекты</a>
+                <a href="#tasks">Задачи</a>
+            </nav>
+        </aside>
+
+        <main class="main">
+
+            <!-- верхняя панель -->
+            <header class="topbar">
+                <h1>Главная</h1>
+
+                <div class="user">
+                    <span>Админ</span>
+                </div>
+            </header>
+
+            <!-- ошибка (например, сервер не запущен) -->
+            <div class="error" id="error" hidden></div>
+
+            <section class="page" id="dashboard-page">
+                <!-- карточки со статистикой -->
+                <div class="stats">
+
+                    <div class="card">
+                        <h3>Проекты</h3>
+                        <p id="stat-projects">0</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Задачи</h3>
+                        <p id="stat-tasks">0</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Открытые задачи</h3>
+                        <p id="stat-open">0</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Выполнено</h3>
+                        <p id="stat-done">0</p>
+                    </div>
+
+                </div>
+
+                <!-- последние задачи -->
+                <section class="tasks">
+
+                    <div class="head">
+                        <h2>Последние задачи</h2>
+                        <button id="all-tasks-btn">Все задачи</button>
+                    </div>
+
+                    <div class="task-list" id="last-tasks">
+                        <!-- сюда script.js добавит задачи -->
+                    </div>
+
+                </section>
+
+                <!-- проекты -->
+                <section class="projects">
+
+                    <div class="head">
+                        <h2>Проекты</h2>
+                        <button id="all-projects-btn">Все проекты</button>
+                    </div>
+
+                    <div class="project-list" id="last-projects">
+                        <!-- сюда script.js добавит проекты -->
+                    </div>
+
+                </section>
+            </section>
+
+            <section class="page projects-page" id="projects-page" hidden>
+                <div class="page-header">
+                    <div>
+                        <h1>Проекты</h1>
+                        <p>Управление проектами команды</p>
+                    </div>
+
+                    <button id="new-project-btn">+ Новый проект</button>
+                </div>
+
+                <div class="project-grid" id="project-grid">
+                    <!-- сюда script.js добавит карточки проектов -->
+                </div>
+            </section>
+
+            <section class="page tasks-page" id="tasks-page" hidden>
+                <div class="page-header">
+                    <div>
+                        <h1>Задачи</h1>
+                        <select id="status-filter">
+                            <option value="">Все статусы</option>
+                            <option value="todo">Ожидает</option>
+                            <option value="in_progress">В работе</option>
+                            <option value="done">Готово</option>
+                        </select>
+                    </div>
+
+                    <button id="new-task-btn">+ Новая задача</button>
+                </div>
+
+                <div class="task-list" id="all-tasks">
+                    <!-- сюда script.js добавит задачи -->
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- окно: новый проект -->
+    <dialog id="project-dialog">
+        <form id="project-form">
+            <h2>Новый проект</h2>
+
+            <input name="name" placeholder="Название" required minlength="2">
+            <textarea name="description" placeholder="Описание"></textarea>
+
+            <select name="status">
+                <option value="planned">Запланирован</option>
+                <option value="active">Активный</option>
+                <option value="completed">Завершён</option>
+            </select>
+
+            <div class="dialog-buttons">
+                <button type="button" class="cancel-btn">Отмена</button>
+                <button type="submit">Создать</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- окно: новая задача -->
+    <dialog id="task-dialog">
+        <form id="task-form">
+            <h2>Новая задача</h2>
+
+            <input name="title" placeholder="Название" required minlength="2">
+
+            <select name="project_id" id="task-project" required>
+                <!-- сюда script.js добавит проекты -->
+            </select>
+
+            <select name="priority">
+                <option value="low">Низкий приоритет</option>
+                <option value="medium" selected>Средний приоритет</option>
+                <option value="high">Высокий приоритет</option>
+            </select>
+
+            <div class="dialog-buttons">
+                <button type="button" class="cancel-btn">Отмена</button>
+                <button type="submit">Создать</button>
+            </div>
+        </form>
+    </dialog>
+
+</body>
+</html>
