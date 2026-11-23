@@ -29,7 +29,11 @@ class Project(Base):
         nullable=False,
     )
 
-    # задачи проекта (удаляются вместе с проектом)
+    owner_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id"),
+        nullable=False,
+    )
+
     tasks: Mapped[list["Task"]] = relationship(
         cascade="all, delete-orphan",
     )
@@ -68,11 +72,12 @@ class Task(Base):
         ForeignKey("employees.id"),
         nullable=True,
     )
-    type:Mapped[str] = mapped_column(
+    type: Mapped[str] = mapped_column(
         String(20),
         default="task",
         nullable=False,
     )
+
 class Employee(Base):
     __tablename__ = "employees"
 
@@ -88,11 +93,52 @@ class Employee(Base):
 
     email: Mapped[str] = mapped_column(
         String(100),
-        unique=True,
         nullable=False,
     )
 
     position: Mapped[str] = mapped_column(
         String(50),
         nullable=False,
+    )
+
+    owner_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id"),
+        nullable=False,
+    )
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+        autoincrement=True,
+    )
+
+    username: Mapped[str] = mapped_column(
+        String(50),
+        unique=True,
+        nullable=False,
+    )
+    password_hash: Mapped[str] = mapped_column(
+        String(128),
+        nullable=False
+    )
+    salt: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False
+    )
+
+
+class UserSession(Base):
+    __tablename__ = "user_sessions"
+
+    token: Mapped[str] = mapped_column(
+        String(64),
+        primary_key=True
+    )
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id"),
+        nullable=False
     )

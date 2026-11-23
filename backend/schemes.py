@@ -25,6 +25,12 @@ class ProjectCreate(BaseModel):
         description="The current status of the project",
     )
 
+class ProjectUpdate(BaseModel):
+    status: ProjectStatus = Field(
+        ...,
+        description="The new status of the project",
+    )
+
 class ProjectRead(BaseModel):
     id: int = Field(
         ...,
@@ -161,4 +167,11 @@ class EmployeeRead(BaseModel):
         description="The position of the employee",
     )
     model_config = ConfigDict(from_attributes=True)
-    
+
+class UserCreate(BaseModel):
+    username: str = Field(min_length=3, max_length=50)
+    password: str = Field(min_length=6, max_length=128)
+
+class TokenRead(BaseModel):
+    token: str
+    username: str

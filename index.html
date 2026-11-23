@@ -4,16 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Панель проектов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
     <script defer src="./script.js"></script>
 </head>
 <body>
 
-    <div class="app">
+    <section class="auth" id="auth" hidden>
+        <div class="auth-side">
+            <div class="brand">
+                <span class="brand-mark">pm</span>
+                Панель проектов
+            </div>
+            <h1>Проекты, задачи и команда в одном месте</h1>
+            <p>Заводи проекты, раздавай задачи сотрудникам и смотри, сколько уже сделано.</p>
+        </div>
 
-        <!-- меню слева -->
+        <form class="auth-form" id="auth-form">
+            <h2 id="auth-title">Вход</h2>
+
+            <label>
+                Логин
+                <input name="username" autocomplete="username" required minlength="3" maxlength="50">
+            </label>
+
+            <label>
+                Пароль
+                <input name="password" type="password" autocomplete="current-password" required minlength="6" maxlength="128">
+            </label>
+
+            <p class="auth-error" id="auth-error" hidden></p>
+
+            <button type="submit" id="auth-submit">Войти</button>
+
+            <p class="auth-switch">
+                <span id="auth-question">Нет аккаунта?</span>
+                <button type="button" class="link-btn" id="auth-toggle">Зарегистрироваться</button>
+            </p>
+        </form>
+    </section>
+
+    <div class="app" id="app" hidden>
+
         <aside class="sidebar">
-            <div class="logo">
+            <div class="brand">
+                <span class="brand-mark">pm</span>
                 Мои проекты
             </div>
 
@@ -21,124 +58,102 @@
                 <a href="#dashboard">Главная</a>
                 <a href="#projects">Проекты</a>
                 <a href="#tasks">Задачи</a>
+                <a href="#team">Команда</a>
             </nav>
+
+            <div class="account">
+                <div class="avatar" id="account-avatar"></div>
+                <span id="account-name"></span>
+                <button class="link-btn" id="logout-btn">Выйти</button>
+            </div>
         </aside>
 
         <main class="main">
 
-            <!-- верхняя панель -->
             <header class="topbar">
-                <h1>Главная</h1>
-
-                <div class="user">
-                    <span>Админ</span>
-                </div>
+                <h1 id="page-title">Главная</h1>
+                <span class="today" id="today"></span>
             </header>
 
-            <!-- ошибка (например, сервер не запущен) -->
             <div class="error" id="error" hidden></div>
 
             <section class="page" id="dashboard-page">
-                <!-- карточки со статистикой -->
                 <div class="stats">
-
-                    <div class="card">
-                        <h3>Проекты</h3>
-                        <p id="stat-projects">0</p>
+                    <div class="stat">
+                        <span>Проекты</span>
+                        <strong id="stat-projects">0</strong>
                     </div>
-
-                    <div class="card">
-                        <h3>Задачи</h3>
-                        <p id="stat-tasks">0</p>
+                    <div class="stat">
+                        <span>Всего задач</span>
+                        <strong id="stat-tasks">0</strong>
                     </div>
-
-                    <div class="card">
-                        <h3>Открытые задачи</h3>
-                        <p id="stat-open">0</p>
+                    <div class="stat">
+                        <span>Открыто</span>
+                        <strong id="stat-open">0</strong>
                     </div>
-
-                    <div class="card">
-                        <h3>Выполнено</h3>
-                        <p id="stat-done">0</p>
+                    <div class="stat">
+                        <span>Выполнено</span>
+                        <strong id="stat-done">0</strong>
                     </div>
-
                 </div>
 
-                <!-- последние задачи -->
-                <section class="tasks">
+                <div class="columns">
+                    <section>
+                        <div class="section-head">
+                            <h2>Последние задачи</h2>
+                            <button class="ghost-btn" data-goto="tasks">Все задачи →</button>
+                        </div>
+                        <div class="list" id="last-tasks"></div>
+                    </section>
 
-                    <div class="head">
-                        <h2>Последние задачи</h2>
-                        <button id="all-tasks-btn">Все задачи</button>
-                    </div>
-
-                    <div class="task-list" id="last-tasks">
-                        <!-- сюда script.js добавит задачи -->
-                    </div>
-
-                </section>
-
-                <!-- проекты -->
-                <section class="projects">
-
-                    <div class="head">
-                        <h2>Проекты</h2>
-                        <button id="all-projects-btn">Все проекты</button>
-                    </div>
-
-                    <div class="project-list" id="last-projects">
-                        <!-- сюда script.js добавит проекты -->
-                    </div>
-
-                </section>
+                    <section>
+                        <div class="section-head">
+                            <h2>Проекты</h2>
+                            <button class="ghost-btn" data-goto="projects">Все проекты →</button>
+                        </div>
+                        <div class="list" id="last-projects"></div>
+                    </section>
+                </div>
             </section>
 
-            <section class="page projects-page" id="projects-page" hidden>
-                <div class="page-header">
-                    <div>
-                        <h1>Проекты</h1>
-                        <p>Управление проектами команды</p>
-                    </div>
-
+            <section class="page" id="projects-page" hidden>
+                <div class="page-head">
+                    <p>Все проекты и их прогресс</p>
                     <button id="new-project-btn">+ Новый проект</button>
                 </div>
-
-                <div class="project-grid" id="project-grid">
-                    <!-- сюда script.js добавит карточки проектов -->
-                </div>
+                <div class="grid" id="project-grid"></div>
             </section>
 
-            <section class="page tasks-page" id="tasks-page" hidden>
-                <div class="page-header">
-                    <div>
-                        <h1>Задачи</h1>
-                        <select id="status-filter">
-                            <option value="">Все статусы</option>
-                            <option value="todo">Ожидает</option>
-                            <option value="in_progress">В работе</option>
-                            <option value="done">Готово</option>
-                        </select>
-                    </div>
-
+            <section class="page" id="tasks-page" hidden>
+                <div class="page-head">
+                    <select id="status-filter">
+                        <option value="">Все статусы</option>
+                        <option value="todo">Ожидает</option>
+                        <option value="in_progress">В работе</option>
+                        <option value="done">Готово</option>
+                    </select>
                     <button id="new-task-btn">+ Новая задача</button>
                 </div>
+                <div class="list" id="all-tasks"></div>
+            </section>
 
-                <div class="task-list" id="all-tasks">
-                    <!-- сюда script.js добавит задачи -->
+            <section class="page" id="team-page" hidden>
+                <div class="page-head">
+                    <p>Сотрудники, которым можно назначать задачи</p>
+                    <button id="new-employee-btn">+ Сотрудник</button>
                 </div>
+                <div class="grid" id="team-grid"></div>
             </section>
 
         </main>
-
     </div>
 
-    <!-- окно: новый проект -->
     <dialog id="project-dialog">
         <form id="project-form">
             <h2>Новый проект</h2>
 
-            <input name="name" placeholder="Название" required minlength="2">
-            <textarea name="description" placeholder="Описание"></textarea>
+            <input name="name" placeholder="Название" required minlength="2" maxlength="100">
+            <textarea name="description" placeholder="Описание" maxlength="2000"></textarea>
 
             <select name="status">
                 <option value="planned">Запланирован</option>
@@ -153,16 +168,12 @@
         </form>
     </dialog>
 
-    <!-- окно: новая задача -->
     <dialog id="task-dialog">
         <form id="task-form">
             <h2>Новая задача</h2>
 
-            <input name="title" placeholder="Название" required minlength="2">
-
-            <select name="project_id" id="task-project" required>
-                <!-- сюда script.js добавит проекты -->
-            </select>
+            <input name="title" placeholder="Что нужно сделать" required minlength="2" maxlength="200">
+            <select name="project_id" id="task-project" required></select>
 
             <select name="priority">
                 <option value="low">Низкий приоритет</option>
@@ -170,9 +181,26 @@
                 <option value="high">Высокий приоритет</option>
             </select>
 
+            <select name="assignee_id" id="task-assignee"></select>
+
             <div class="dialog-buttons">
                 <button type="button" class="cancel-btn">Отмена</button>
                 <button type="submit">Создать</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="employee-dialog">
+        <form id="employee-form">
+            <h2>Новый сотрудник</h2>
+
+            <input name="name" placeholder="Имя" required minlength="2" maxlength="100">
+            <input name="email" type="email" placeholder="Email" required maxlength="100">
+            <input name="position" placeholder="Должность" required minlength="2" maxlength="50">
+
+            <div class="dialog-buttons">
+                <button type="button" class="cancel-btn">Отмена</button>
+                <button type="submit">Добавить</button>
             </div>
         </form>
     </dialog>
