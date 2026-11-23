@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const isLocal = ["", "localhost", "127.0.0.1"].includes(location.hostname);
-    const API_URL = isLocal ? "http://127.0.0.1:8000" : "https://RENDER_ADDRESS.onrender.com";
+    const API_URL = isLocal ? "http://127.0.0.1:8000" : "https://project-manager-50mj.onrender.com";
 
     const taskStatusNames = { todo: "Ожидает", in_progress: "В работе", done: "Готово" };
     const projectStatusNames = { planned: "Запланирован", active: "Активный", completed: "Завершён" };
